@@ -1,7 +1,7 @@
 package ru.yandex.practicum.filmorate.controller.validators;
-import jakarta.validation.constraints.*;
-import jakarta.validation.ConstraintValidator;
-import jakarta.validation.ConstraintValidatorContext;
+import javax.validation.constraints.*;
+import javax.validation.ConstraintValidator;
+import javax.validation.ConstraintValidatorContext;
 import java.time.LocalDate;
 
 public class ReleaseDateValidator implements ConstraintValidator<ValidReleaseDate, LocalDate> {
