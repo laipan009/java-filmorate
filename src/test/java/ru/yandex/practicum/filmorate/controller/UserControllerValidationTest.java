@@ -7,8 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.model.User;
 
 import java.time.LocalDate;
@@ -43,12 +41,9 @@ class UserControllerValidationTest {
 
     @BeforeEach
     void setUp() {
-        user = createUser(1, "test@test.com", "test", "Test User"
-                , LocalDate.of(1990, 1, 1));
-        user2 = createUser(2, "test2@test.com", "test2", "Test User2"
-                , LocalDate.of(1992, 2, 2));
-        user3 = createUser(2, "test2@test.com", "test2", "Test User2"
-                , LocalDate.of(1992, 2, 2));
+        user = createUser(1, "test@test.com", "test", "Test User", LocalDate.of(1990, 1, 1));
+        user2 = createUser(2, "test2@test.com", "test2", "Test User2", LocalDate.of(1992, 2, 2));
+        user3 = createUser(2, "test2@test.com", "test2", "Test User2", LocalDate.of(1992, 2, 2));
     }
 
     @Test
