@@ -16,6 +16,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/users")
 public class UserController {
+    private static int id = 1;
     private Map<Integer, User> users = new HashMap<>();
 
     @GetMapping
@@ -28,16 +29,19 @@ public class UserController {
         if (user.getName() == null || StringUtils.isBlank(user.getName())) {
             user.setName(user.getLogin());
         }
-
-        if (users.containsKey(user.getId())) {
-            throw new ValidationException("User with same id=" + user.getId() + " already exist");
-        }
-        users.put(user.getId(), user);
+        user.setId(id);
+        users.put(id++, user);
         return user;
     }
 
     @PutMapping
     private User updateUser(@Valid @RequestBody User user) {
+        if (users.get(user.getId()) == null) {
+            throw new ValidationException("User not exist");
+        }
+        if (user.getName() == null || StringUtils.isBlank(user.getName())) {
+            user.setName(user.getLogin());
+        }
         users.put(user.getId(), user);
         return user;
     }

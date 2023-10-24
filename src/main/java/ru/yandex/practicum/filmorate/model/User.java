@@ -1,13 +1,14 @@
 package ru.yandex.practicum.filmorate.model;
 
 import  javax.validation.constraints.*;
+
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.time.LocalDate;
 
 @Data
 public class User {
-    @Positive(message = "id can't be negative")
     private int id;
 
     @NotBlank(message = "Email cannot be empty")
@@ -18,7 +19,7 @@ public class User {
     @Pattern(regexp = "^\\S+$", message = "Login cannot contain spaces")
     private String login;
 
-    @NotNull(message = "Name can't be null")
+//    @NotNull(message = "Name can't be null")
     private String name;
 
     @Past(message = "Birthday cannot be in the future")

@@ -15,6 +15,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/films")
 public class FilmController {
+    private static int id = 1;
     private Map<Integer, Film> films = new HashMap<>();
 
     @GetMapping
@@ -27,12 +28,16 @@ public class FilmController {
         if (films.containsKey(film.getId())) {
             throw new ValidationException("Film with same id=" + film.getId() + " already exist");
         }
-        films.put(film.getId(), film);
+        film.setId(id);
+        films.put(id++, film);
         return film;
     }
 
     @PutMapping
     public Film updateFilm(@Valid @RequestBody Film film) {
+        if (films.get(film.getId()) == null) {
+            throw new ValidationException("Film with same id=" + film.getId() + " already not exist");
+        }
         films.put(film.getId(), film);
         return film;
     }

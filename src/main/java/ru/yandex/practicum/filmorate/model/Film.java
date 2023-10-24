@@ -11,7 +11,6 @@ import java.time.LocalDate;
 
 @Data
 public class Film {
-    @Positive(message = "id can't be negative")
     private int id;
 
     @NotBlank(message = "Title cannot be empty")
