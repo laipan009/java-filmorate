@@ -43,9 +43,7 @@ class FilmControllerValidationTest {
     @BeforeEach
     void setUp() {
         validFilm = createFilm(1, "Test Film", "Test Description", LocalDate.now(), 120);
-        film2 = createFilm(2, "Film2", "Description2", LocalDate.of(2021, 1, 1)
-                , 130);
-
+        film2 = createFilm(2, "Film2", "Description2", LocalDate.of(2021, 1, 1), 130);
     }
 
     @Test
