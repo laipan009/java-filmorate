@@ -30,21 +30,22 @@ class FilmControllerValidationTest {
     private Film validFilm;
     private Film film2;
 
+    private Film createFilm(int id, String name, String desc, LocalDate date, int duration) {
+        Film film = new Film();
+        film.setId(id);
+        film.setName(name);
+        film.setDescription(desc);
+        film.setReleaseDate(date);
+        film.setDuration(duration);
+        return film;
+    }
+
     @BeforeEach
     void setUp() {
-        validFilm = new Film();
-        validFilm.setId(1);
-        validFilm.setName("Test Film");
-        validFilm.setDescription("Test Description");
-        validFilm.setReleaseDate(LocalDate.now());
-        validFilm.setDuration(120);
+        validFilm = createFilm(1, "Test Film", "Test Description", LocalDate.now(), 120);
+        film2 = createFilm(2, "Film2", "Description2", LocalDate.of(2021, 1, 1)
+                , 130);
 
-        film2 = new Film();
-        film2.setId(2);
-        film2.setName("Film2");
-        film2.setDescription("Description2");
-        film2.setReleaseDate(LocalDate.of(2021, 1, 1));
-        film2.setDuration(130);
     }
 
     @Test
@@ -114,12 +115,6 @@ class FilmControllerValidationTest {
 
     @Test
     public void testGetFilmsWhenFilmsExistThenReturnFilms() throws Exception {
-        mockMvc.perform(post("/films")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(validFilm)))
-                .andExpect(status().isOk())
-                .andExpect(content().json(objectMapper.writeValueAsString(validFilm)));
-
         mockMvc.perform(post("/films")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(film2)))

@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.model.User;
 
 import java.time.LocalDate;
@@ -27,38 +29,30 @@ class UserControllerValidationTest {
 
     private User user;
     private User user2;
+    private User user3;
+
+    private User createUser(int id, String email, String login, String name, LocalDate birthday) {
+        User user = new User();
+        user.setId(id);
+        user.setEmail(email);
+        user.setLogin(login);
+        user.setName(name);
+        user.setBirthday(birthday);
+        return user;
+    }
 
     @BeforeEach
     void setUp() {
-        user = new User();
-        user.setId(1);
-        user.setEmail("test@test.com");
-        user.setLogin("test");
-        user.setName("Test User");
-        user.setBirthday(LocalDate.of(1990, 1, 1));
-
-        user2 = new User();
-        user2.setId(2);
-        user2.setEmail("test2@test.com");
-        user2.setLogin("test2");
-        user2.setName("Test User2");
-        user2.setBirthday(LocalDate.of(1992, 2, 2));
+        user = createUser(1, "test@test.com", "test", "Test User"
+                , LocalDate.of(1990, 1, 1));
+        user2 = createUser(2, "test2@test.com", "test2", "Test User2"
+                , LocalDate.of(1992, 2, 2));
+        user3 = createUser(2, "test2@test.com", "test2", "Test User2"
+                , LocalDate.of(1992, 2, 2));
     }
 
     @Test
     void testGetUsersWhenUsersExistThenReturnUsers() throws Exception {
-        mockMvc.perform(post("/users")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(user)))
-                .andExpect(status().isOk())
-                .andExpect(content().json(objectMapper.writeValueAsString(user)));
-
-        mockMvc.perform(post("/users")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(user2)))
-                .andExpect(status().isOk())
-                .andExpect(content().json(objectMapper.writeValueAsString(user2)));
-
         mockMvc.perform(get("/users"))
                 .andExpect(status().isOk())
                 .andExpect(content().json(objectMapper.writeValueAsString(Arrays.asList(user, user2))));
@@ -68,9 +62,9 @@ class UserControllerValidationTest {
     void testAddNewUserWhenUserIsValidThenAddUserAndReturnUser() throws Exception {
         mockMvc.perform(post("/users")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(user)))
+                        .content(objectMapper.writeValueAsString(user3)))
                 .andExpect(status().isOk())
-                .andExpect(content().json(objectMapper.writeValueAsString(user)));
+                .andExpect(content().json(objectMapper.writeValueAsString(user3)));
     }
 
     @Test

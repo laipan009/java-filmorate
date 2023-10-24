@@ -13,15 +13,16 @@ import java.util.Map;
 
 @Slf4j
 @RestController
+@RequestMapping("/films")
 public class FilmController {
     private Map<Integer, Film> films = new HashMap<>();
 
-    @GetMapping("/films")
+    @GetMapping
     public List<Film> getFilms() {
         return new ArrayList<>(films.values());
     }
 
-    @PostMapping("/films")
+    @PostMapping
     public Film addNewFilm(@Valid @RequestBody Film film) {
         if (films.containsKey(film.getId())) {
             throw new ValidationException("Film with same id=" + film.getId() + " already exist");
@@ -30,7 +31,7 @@ public class FilmController {
         return film;
     }
 
-    @PutMapping("/films")
+    @PutMapping
     public Film updateFilm(@Valid @RequestBody Film film) {
         films.put(film.getId(), film);
         return film;

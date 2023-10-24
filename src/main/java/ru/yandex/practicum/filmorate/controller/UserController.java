@@ -2,6 +2,7 @@ package ru.yandex.practicum.filmorate.controller;
 
 import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.filmorate.controller.exceptions.ValidationException;
 import ru.yandex.practicum.filmorate.model.User;
@@ -12,18 +13,19 @@ import java.util.List;
 import java.util.Map;
 
 @Slf4j
-@RestController()
+@RestController
+@RequestMapping("/users")
 public class UserController {
     private Map<Integer, User> users = new HashMap<>();
 
-    @GetMapping("/users")
+    @GetMapping
     public List<User> getUsers() {
         return new ArrayList<>(users.values());
     }
 
-    @PostMapping("/users")
+    @PostMapping
     public User addNewUser(@Valid @RequestBody User user) {
-        if (user.getName() == null || user.getName().isBlank()) {
+        if (user.getName() == null || StringUtils.isBlank(user.getName())) {
             user.setName(user.getLogin());
         }
 
@@ -34,7 +36,7 @@ public class UserController {
         return user;
     }
 
-    @PutMapping("/users")
+    @PutMapping
     private User updateUser(@Valid @RequestBody User user) {
         users.put(user.getId(), user);
         return user;
