@@ -26,40 +26,30 @@ class UserControllerValidationTest {
     private ObjectMapper objectMapper;
 
     private User user;
-    private User user2;
-    private User user3;
-
-    private User createUser(int id, String email, String login, String name, LocalDate birthday) {
-        User user = new User();
-        user.setId(id);
-        user.setEmail(email);
-        user.setLogin(login);
-        user.setName(name);
-        user.setBirthday(birthday);
-        return user;
-    }
+    private User someUser;
+    private User defaultUser;
 
     @BeforeEach
     void setUp() {
         user = createUser(1, "test@test.com", "test", "Test User", LocalDate.of(1990, 1, 1));
-        user2 = createUser(2, "test2@test.com", "test2", "Test User2", LocalDate.of(1992, 2, 2));
-        user3 = createUser(2, "test2@test.com", "test2", "Test User2", LocalDate.of(1992, 2, 2));
+        someUser = createUser(2, "test2@test.com", "test2", "Test User2", LocalDate.of(1992, 2, 2));
+        defaultUser = createUser(2, "test2@test.com", "test2", "Test User2", LocalDate.of(1992, 2, 2));
     }
 
     @Test
     void testGetUsersWhenUsersExistThenReturnUsers() throws Exception {
         mockMvc.perform(get("/users"))
                 .andExpect(status().isOk())
-                .andExpect(content().json(objectMapper.writeValueAsString(Arrays.asList(user, user2))));
+                .andExpect(content().json(objectMapper.writeValueAsString(Arrays.asList(user, someUser))));
     }
 
     @Test
     void testAddNewUserWhenUserIsValidThenAddUserAndReturnUser() throws Exception {
         mockMvc.perform(post("/users")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(user3)))
+                        .content(objectMapper.writeValueAsString(defaultUser)))
                 .andExpect(status().isOk())
-                .andExpect(content().json(objectMapper.writeValueAsString(user3)));
+                .andExpect(content().json(objectMapper.writeValueAsString(defaultUser)));
     }
 
     @Test
@@ -139,5 +129,15 @@ class UserControllerValidationTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(user)))
                 .andExpect(status().isOk());
+    }
+
+    private User createUser(int id, String email, String login, String name, LocalDate birthday) {
+        User user = new User();
+        user.setId(id);
+        user.setEmail(email);
+        user.setLogin(login);
+        user.setName(name);
+        user.setBirthday(birthday);
+        return user;
     }
 }

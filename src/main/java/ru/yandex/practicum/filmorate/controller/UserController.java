@@ -26,7 +26,7 @@ public class UserController {
 
     @PostMapping
     public User addNewUser(@Valid @RequestBody User user) {
-        if (user.getName() == null || StringUtils.isBlank(user.getName())) {
+        if (StringUtils.isBlank(user.getName())) {
             user.setName(user.getLogin());
         }
         user.setId(id);
@@ -39,7 +39,7 @@ public class UserController {
         if (users.get(user.getId()) == null) {
             throw new ValidationException("User not exist");
         }
-        if (user.getName() == null || StringUtils.isBlank(user.getName())) {
+        if (StringUtils.isBlank(user.getName())) {
             user.setName(user.getLogin());
         }
         users.put(user.getId(), user);

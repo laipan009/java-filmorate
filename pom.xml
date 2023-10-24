@@ -21,11 +21,9 @@
 		<org.jetbrains.version>20.1.0</org.jetbrains.version>
 		<org.assertj.version>3.24.2</org.assertj.version>
 		<org.apache.commons>3.13.0</org.apache.commons>
-
 	</properties>
 
 	<dependencies>
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
@@ -79,9 +77,6 @@
 			<artifactId>commons-lang3</artifactId>
 			<version>${org.apache.commons}</version>
 		</dependency>
-
-
-
 	</dependencies>
 
 	<build>
@@ -105,5 +100,4 @@
 			</plugin>
 		</plugins>
 	</build>
-
 </project>

@@ -28,22 +28,12 @@ class FilmControllerValidationTest {
     private ObjectMapper objectMapper;
 
     private Film validFilm;
-    private Film film2;
-
-    private Film createFilm(int id, String name, String desc, LocalDate date, int duration) {
-        Film film = new Film();
-        film.setId(id);
-        film.setName(name);
-        film.setDescription(desc);
-        film.setReleaseDate(date);
-        film.setDuration(duration);
-        return film;
-    }
+    private Film anotherOneValidFilm;
 
     @BeforeEach
     void setUp() {
         validFilm = createFilm(1, "Test Film", "Test Description", LocalDate.now(), 120);
-        film2 = createFilm(2, "Film2", "Description2", LocalDate.of(2021, 1, 1), 130);
+        anotherOneValidFilm = createFilm(2, "Film2", "Description2", LocalDate.of(2021, 1, 1), 130);
     }
 
     @Test
@@ -115,12 +105,22 @@ class FilmControllerValidationTest {
     public void testGetFilmsWhenFilmsExistThenReturnFilms() throws Exception {
         mockMvc.perform(post("/films")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(film2)))
+                        .content(objectMapper.writeValueAsString(anotherOneValidFilm)))
                 .andExpect(status().isOk())
-                .andExpect(content().json(objectMapper.writeValueAsString(film2)));
+                .andExpect(content().json(objectMapper.writeValueAsString(anotherOneValidFilm)));
 
         mockMvc.perform(get("/films"))
                 .andExpect(status().isOk())
-                .andExpect(content().json(objectMapper.writeValueAsString(Arrays.asList(validFilm, film2))));
+                .andExpect(content().json(objectMapper.writeValueAsString(Arrays.asList(validFilm, anotherOneValidFilm))));
+    }
+
+    private Film createFilm(int id, String name, String desc, LocalDate date, int duration) {
+        Film film = new Film();
+        film.setId(id);
+        film.setName(name);
+        film.setDescription(desc);
+        film.setReleaseDate(date);
+        film.setDuration(duration);
+        return film;
     }
 }
