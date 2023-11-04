@@ -1,13 +1,15 @@
 package ru.yandex.practicum.filmorate.model;
 
 import lombok.Data;
-import ru.yandex.practicum.filmorate.controller.validators.ValidReleaseDate;
+import ru.yandex.practicum.filmorate.validators.ValidReleaseDate;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 public class Film {
@@ -25,4 +27,6 @@ public class Film {
 
     @Positive(message = "Film duration must be positive")
     private int duration;
+
+    private Set<Integer> likes = new HashSet<>();
 }
