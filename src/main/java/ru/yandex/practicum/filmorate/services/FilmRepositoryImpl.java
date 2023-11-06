@@ -42,7 +42,7 @@ public class FilmRepositoryImpl implements FilmRepository {
 
     @Override
     public Film updateFilm(Film film) {
-        if (isFilmExists(film.getId())) {
+        if (!isFilmExists(film.getId())) {
             throw new NotExistObjectException("Film with same id=" + film.getId() + " already not exist");
         }
         films.put(film.getId(), film);

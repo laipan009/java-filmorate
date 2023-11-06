@@ -43,7 +43,7 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public User updateUser(User user) {
-        if (isUserExists(user.getId())) {
+        if (!isUserExists(user.getId())) {
             throw new NotExistObjectException("User not exist");
         }
         if (StringUtils.isBlank(user.getName())) {
@@ -55,7 +55,7 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public void deleteUserById(int id) {
-        if (isUserExists(id)) {
+        if (!isUserExists(id)) {
             throw new NotExistObjectException("User not exist");
         }
         users.remove(id);
