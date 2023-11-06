@@ -17,21 +17,21 @@ public class ErrorHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public Map<String, String> handleValid(final MethodArgumentNotValidException e) {
-        log.error("Invoke exception "+ e.getMessage());
+        log.error("Invoke exception " + e.getMessage());
         return Map.of("Error: Not valid parameters", "try again");
     }
 
     @ExceptionHandler(NotExistObjectException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public Map<String, String> handleNotExistObject(final NotExistObjectException e) {
-        log.error("Invoke exception "+ e.getMessage());
+        log.error("Invoke exception " + e.getMessage());
         return Map.of("Error: Not Exist Object", e.getMessage());
     }
 
     @ExceptionHandler(RuntimeException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public Map<String, String> handleNotExistObject(final RuntimeException e) {
-        log.error("Invoke exception "+ e.getMessage());
+        log.error("Invoke exception " + e.getMessage());
         return Map.of("Error: ", e.getMessage());
     }
 }

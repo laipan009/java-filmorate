@@ -1,12 +1,11 @@
 package ru.yandex.practicum.filmorate.services;
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.yandex.practicum.filmorate.repository.UserRepository;
 import ru.yandex.practicum.filmorate.exceptions.NotExistObjectException;
 import ru.yandex.practicum.filmorate.model.User;
+import ru.yandex.practicum.filmorate.repository.UserRepository;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -36,7 +35,7 @@ public class UserService {
     }
 
     public User getUserById(int id) {
-       return userRepository.getUserById(id);
+        return userRepository.getUserById(id);
     }
 
     public User updateUser(User user) {

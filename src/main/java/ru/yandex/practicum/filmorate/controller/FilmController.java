@@ -3,7 +3,6 @@ package ru.yandex.practicum.filmorate.controller;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import ru.yandex.practicum.filmorate.repository.FilmRepository;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.services.FilmService;
 
@@ -29,31 +28,31 @@ public class FilmController {
 
     @GetMapping("/{id}")
     public Film getFilmById(@PathVariable int id) {
-        log.info("GET request received to receive film by id="+id);
+        log.info("GET request received to receive film by id=" + id);
         return filmService.getFilmById(id);
     }
 
     @PostMapping
     public Film addNewFilm(@Valid @RequestBody Film film) {
-        log.info("POST request received to add film:"+film);
+        log.info("POST request received to add film:" + film);
         return filmService.addFilm(film);
     }
 
     @PutMapping
     public Film updateFilm(@Valid @RequestBody Film film) {
-        log.info("PUT request received to update film:"+film);
+        log.info("PUT request received to update film:" + film);
         return filmService.updateFilm(film);
     }
 
     @PutMapping("/{id}/like/{userId}")
     public void addLike(@PathVariable int id, @PathVariable int userId) {
-        log.info("PUT request received to add like to film by id="+id+" from user by id=" +userId);
+        log.info("PUT request received to add like to film by id=" + id + " from user by id=" + userId);
         filmService.addLike(id, userId);
     }
 
     @DeleteMapping("/{id}/like/{userId}")
     public void removeLike(@PathVariable int id, @PathVariable int userId) {
-        log.info("DELETE request received to remove like from film by id="+id+" from user by id=" +userId);
+        log.info("DELETE request received to remove like from film by id=" + id + " from user by id=" + userId);
         filmService.removeLike(id, userId);
     }
 

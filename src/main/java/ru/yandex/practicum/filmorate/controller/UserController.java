@@ -3,7 +3,6 @@ package ru.yandex.practicum.filmorate.controller;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import ru.yandex.practicum.filmorate.repository.UserRepository;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.services.UserService;
 
@@ -29,43 +28,43 @@ public class UserController {
 
     @GetMapping("/{id}")
     public User getUserById(@PathVariable int id) {
-        log.info("GET request received to receive user by id="+id);
+        log.info("GET request received to receive user by id=" + id);
         return userService.getUserById(id);
     }
 
     @PostMapping
     public User addNewUser(@Valid @RequestBody User user) {
-        log.info("POST request received to add user:"+user);
+        log.info("POST request received to add user:" + user);
         return userService.addUser(user);
     }
 
     @PutMapping
     private User updateUser(@Valid @RequestBody User user) {
-        log.info("PUT request received to update user:"+user);
+        log.info("PUT request received to update user:" + user);
         return userService.updateUser(user);
     }
 
     @PutMapping("/{id}/friends/{friendId}")
     public void addFriend(@PathVariable int id, @PathVariable int friendId) {
-        log.info("PUT request received to add friend from user by id="+id+" to user by id=" +friendId);
+        log.info("PUT request received to add friend from user by id=" + id + " to user by id=" + friendId);
         userService.addFriend(id, friendId);
     }
 
     @DeleteMapping("/{id}/friends/{friendId}")
     public void deleteFriend(@PathVariable int id, @PathVariable int friendId) {
-        log.info("DELETE request received to remove friend from user by id="+id+" to user by id=" +friendId);
+        log.info("DELETE request received to remove friend from user by id=" + id + " to user by id=" + friendId);
         userService.deleteFriend(id, friendId);
     }
 
     @GetMapping("/{id}/friends")
     public List<User> getFriendsByIdUser(@PathVariable int id) {
-        log.info("GET request received to receive friend list user by id="+id);
+        log.info("GET request received to receive friend list user by id=" + id);
         return userService.getFriendsByIdUser(id);
     }
 
     @GetMapping("/{id}/friends/common/{otherId}")
     public List<User> getCommonFriends(@PathVariable int id, @PathVariable int otherId) {
-        log.info("GET request received to receive common friend list between user by id="+id+" and user by id="+otherId);
+        log.info("GET request received to receive common friend list between user by id=" + id + " and user by id=" + otherId);
         return userService.getCommonFriends(id, otherId);
     }
 }

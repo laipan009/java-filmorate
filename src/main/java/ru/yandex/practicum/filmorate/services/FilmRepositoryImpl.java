@@ -2,9 +2,9 @@ package ru.yandex.practicum.filmorate.services;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import ru.yandex.practicum.filmorate.repository.FilmRepository;
 import ru.yandex.practicum.filmorate.exceptions.NotExistObjectException;
 import ru.yandex.practicum.filmorate.model.Film;
+import ru.yandex.practicum.filmorate.repository.FilmRepository;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -58,7 +58,7 @@ public class FilmRepositoryImpl implements FilmRepository {
     }
 
     @Override
-    public boolean isFilmExists(int id){
+    public boolean isFilmExists(int id) {
         return films.containsKey(id);
     }
 }
