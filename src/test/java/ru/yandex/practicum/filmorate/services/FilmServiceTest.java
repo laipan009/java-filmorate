@@ -37,9 +37,9 @@ class FilmServiceTest {
 
     @Test
     void addLike_WhenTwoFilmsExistInDBThenUserAddLikesBothReturnTrue() {
-        filmService.filmDAO.addFilm(validFilm);
-        filmService.filmDAO.addFilm(defaultFilm);
-        filmService.userService.userDAO.addUser(user);
+        filmService.addFilm(validFilm);
+        filmService.addFilm(defaultFilm);
+        filmService.userService.userRepository.addUser(user);
 
         filmService.addLike(validFilm.getId(), user.getId());
         filmService.addLike(defaultFilm.getId(), user.getId());
@@ -50,9 +50,9 @@ class FilmServiceTest {
 
     @Test
     void removeLike_WhenTwoFilmsExistInDBThenUserAddLikesAndRemoveLikesBothReturnFalse() {
-        filmService.filmDAO.addFilm(validFilm);
-        filmService.filmDAO.addFilm(defaultFilm);
-        filmService.userService.userDAO.addUser(user);
+        filmService.filmRepository.addFilm(validFilm);
+        filmService.filmRepository.addFilm(defaultFilm);
+        filmService.userService.userRepository.addUser(user);
         filmService.addLike(validFilm.getId(), user.getId());
         filmService.addLike(defaultFilm.getId(), user.getId());
 
@@ -65,11 +65,11 @@ class FilmServiceTest {
 
     @Test
     void getMostNOr10LikedFilms_WhenExist3FilmsWith0LikesThen2UsersLikedOneFilmAndNoOneLikeTwoOtherReturn3SortedTopFilms() {
-        filmService.filmDAO.addFilm(validFilm);
-        filmService.filmDAO.addFilm(defaultFilm);
-        filmService.filmDAO.addFilm(anotherOneValidFilm);
-        filmService.userService.userDAO.addUser(user);
-        filmService.userService.userDAO.addUser(someUser);
+        filmService.filmRepository.addFilm(validFilm);
+        filmService.filmRepository.addFilm(defaultFilm);
+        filmService.filmRepository.addFilm(anotherOneValidFilm);
+        filmService.userService.userRepository.addUser(user);
+        filmService.userService.userRepository.addUser(someUser);
         filmService.addLike(validFilm.getId(), user.getId());
         filmService.addLike(validFilm.getId(), someUser.getId());
 

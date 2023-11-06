@@ -1,10 +1,10 @@
-package ru.yandex.practicum.filmorate.DAO;
+package ru.yandex.practicum.filmorate.repository;
 
 import ru.yandex.practicum.filmorate.model.Film;
 
 import java.util.List;
 
-public interface FilmDAO {
+public interface FilmRepository {
     List<Film> getAllFilms();
 
     Film addFilm(Film film);
@@ -13,5 +13,7 @@ public interface FilmDAO {
 
     Film updateFilm(Film film);
 
-    Film deleteFilmById(int id);
+    void deleteFilmById(int id);
+
+    boolean isFilmExists(int id);
 }

@@ -31,14 +31,14 @@ class UserServiceTest {
 
     @Test
     void isUserExists_WhenCreateUserThenAddToDBReturnTrue() {
-        userService.userDAO.addUser(user);
-        assertThat(userService.isUserExists(user.getId())).isTrue();
+        userService.userRepository.addUser(user);
+        assertThat(userService.userRepository.isUserExists(user.getId())).isTrue();
     }
 
     @Test
     void isUsersAlreadyFriends_WhenCreateTwoUsersThenAddEachOtherAsFriendsReturnTrue() {
-        userService.userDAO.addUser(user);
-        userService.userDAO.addUser(someUser);
+        userService.userRepository.addUser(user);
+        userService.userRepository.addUser(someUser);
 
         userService.addFriend(user.getId(), someUser.getId());
 
@@ -47,9 +47,9 @@ class UserServiceTest {
 
     @Test
     void addFriend_WhenUserNotHaveFriendThenAddFriendReturnTrue() {
-        userService.userDAO.addUser(user);
+        userService.userRepository.addUser(user);
         assertTrue(userService.getFriendsByIdUser(user.getId()).isEmpty());
-        userService.userDAO.addUser(someUser);
+        userService.userRepository.addUser(someUser);
 
         userService.addFriend(user.getId(), someUser.getId());
 
@@ -58,8 +58,8 @@ class UserServiceTest {
 
     @Test
     void deleteFriend_WhenUserHaveFriendThenDeleteFriendReturnFalse() {
-        userService.userDAO.addUser(user);
-        userService.userDAO.addUser(someUser);
+        userService.userRepository.addUser(user);
+        userService.userRepository.addUser(someUser);
         userService.addFriend(user.getId(), someUser.getId());
         assertTrue(userService.isUsersAlreadyFriends(user.getId(), someUser.getId()));
 
@@ -70,8 +70,8 @@ class UserServiceTest {
 
     @Test
     void getFriendsByIdUser_WhenUserHaveFriendThenGetFriendReturnTrue() {
-        userService.userDAO.addUser(user);
-        userService.userDAO.addUser(someUser);
+        userService.userRepository.addUser(user);
+        userService.userRepository.addUser(someUser);
         userService.addFriend(user.getId(), someUser.getId());
         assertTrue(userService.isUsersAlreadyFriends(user.getId(), someUser.getId()));
 
@@ -82,9 +82,9 @@ class UserServiceTest {
 
     @Test
     void getCommonFriends_WhenExistTwoUsersWhichDontHaveCommonFriendsThenAddCommonFriendReturnTrue() {
-        userService.userDAO.addUser(user);
-        userService.userDAO.addUser(someUser);
-        userService.userDAO.addUser(defaultUser);
+        userService.userRepository.addUser(user);
+        userService.userRepository.addUser(someUser);
+        userService.userRepository.addUser(defaultUser);
 
         userService.addFriend(user.getId(), defaultUser.getId());
         userService.addFriend(someUser.getId(), defaultUser.getId());

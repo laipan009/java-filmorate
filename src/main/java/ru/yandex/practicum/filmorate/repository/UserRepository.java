@@ -1,10 +1,10 @@
-package ru.yandex.practicum.filmorate.DAO;
+package ru.yandex.practicum.filmorate.repository;
 
 import ru.yandex.practicum.filmorate.model.User;
 
 import java.util.List;
 
-public interface UserDAO {
+public interface UserRepository {
     List<User> getAllUsers();
 
     User addUser(User user);
@@ -13,5 +13,7 @@ public interface UserDAO {
 
     User updateUser(User user);
 
-    User deleteUserById(int id);
+    void deleteUserById(int id);
+
+    boolean isUserExists(int id);
 }

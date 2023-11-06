@@ -3,7 +3,7 @@ package ru.yandex.practicum.filmorate.services;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
-import ru.yandex.practicum.filmorate.DAO.UserDAO;
+import ru.yandex.practicum.filmorate.repository.UserRepository;
 import ru.yandex.practicum.filmorate.exceptions.NotExistObjectException;
 import ru.yandex.practicum.filmorate.model.User;
 
@@ -14,7 +14,7 @@ import java.util.Map;
 
 @Service
 @Slf4j
-public class UserDAOImpl implements UserDAO {
+public class UserRepositoryImpl implements UserRepository {
     private static int id = 1;
     private final Map<Integer, User> users = new HashMap<>();
 
@@ -35,7 +35,7 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public User getUserById(int id) {
-        if (users.get(id) == null) {
+        if (!isUserExists(id)) {
             throw new NotExistObjectException("User not exist");
         }
         return users.get(id);
@@ -43,7 +43,7 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public User updateUser(User user) {
-        if (users.get(user.getId()) == null) {
+        if (isUserExists(user.getId())) {
             throw new NotExistObjectException("User not exist");
         }
         if (StringUtils.isBlank(user.getName())) {
@@ -54,10 +54,15 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public User deleteUserById(int id) {
-        if (users.get(id) == null) {
+    public void deleteUserById(int id) {
+        if (isUserExists(id)) {
             throw new NotExistObjectException("User not exist");
         }
-        return users.remove(id);
+        users.remove(id);
+    }
+
+    @Override
+    public boolean isUserExists(int id) {
+        return users.containsKey(id);
     }
 }
