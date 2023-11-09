@@ -2,7 +2,7 @@ package ru.yandex.practicum.filmorate.services;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 import ru.yandex.practicum.filmorate.exceptions.NotExistObjectException;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.repository.UserRepository;
@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Service
+@Repository
 @Slf4j
 public class UserRepositoryImpl implements UserRepository {
     private static int id = 1;
@@ -20,11 +20,13 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public List<User> getAllUsers() {
+        log.info("Getting all users");
         return new ArrayList<>(users.values());
     }
 
     @Override
     public User addUser(User user) {
+        log.info("Adding user with id {}", user.getId());
         if (StringUtils.isBlank(user.getName())) {
             user.setName(user.getLogin());
         }
@@ -35,6 +37,7 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public User getUserById(int id) {
+        log.info("Getting user with id {}", id);
         if (!isUserExists(id)) {
             throw new NotExistObjectException("User not exist");
         }
@@ -43,6 +46,7 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public User updateUser(User user) {
+        log.info("Updating user with id {}", id);
         if (!isUserExists(user.getId())) {
             throw new NotExistObjectException("User not exist");
         }
@@ -55,6 +59,7 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public void deleteUserById(int id) {
+        log.info("Deleting user with id {}", id);
         if (!isUserExists(id)) {
             throw new NotExistObjectException("User not exist");
         }
@@ -63,6 +68,7 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public boolean isUserExists(int id) {
+        log.info("Checking user with id {} existence", id);
         return users.containsKey(id);
     }
 }

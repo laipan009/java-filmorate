@@ -1,6 +1,5 @@
 package ru.yandex.practicum.filmorate.services;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.exceptions.NotExistObjectException;
@@ -12,7 +11,6 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Service
-@Slf4j
 public class UserService {
     protected final UserRepository userRepository;
 
@@ -22,8 +20,9 @@ public class UserService {
     }
 
     protected boolean isUsersAlreadyFriends(int userId, int idFriend) {
-        Optional<Set<Integer>> friends = Optional.ofNullable(userRepository.getUserById(userId).getFriends());
-        return friends.map(set -> set.contains(idFriend)).orElse(false);
+        return Optional.ofNullable(userRepository.getUserById(userId).getFriends())
+                .map(set -> set.contains(idFriend))
+                .orElse(false);
     }
 
     public List<User> getAllUsers() {

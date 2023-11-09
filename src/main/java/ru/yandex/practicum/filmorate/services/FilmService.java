@@ -1,11 +1,11 @@
 package ru.yandex.practicum.filmorate.services;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.exceptions.NotExistObjectException;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.repository.FilmRepository;
+import ru.yandex.practicum.filmorate.repository.UserRepository;
 
 import java.util.Comparator;
 import java.util.List;
@@ -14,15 +14,28 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
-@Slf4j
 public class FilmService {
-    protected final FilmRepository filmRepository;
-    protected final UserService userService;
+    private final FilmRepository filmRepository;
+    private final UserService userService;
+    private final UserRepository userRepository;
 
     @Autowired
-    public FilmService(FilmRepository filmRepository, UserService userService) {
+    public FilmService(FilmRepository filmRepository, UserService userService, UserRepository userRepository) {
         this.filmRepository = filmRepository;
         this.userService = userService;
+        this.userRepository = userRepository;
+    }
+
+    public FilmRepository getFilmRepository() {
+        return filmRepository;
+    }
+
+    public UserService getUserService() {
+        return userService;
+    }
+
+    public UserRepository getUserRepository() {
+        return userRepository;
     }
 
     protected boolean isFilmLikedByUser(int filmId, int userId) {
@@ -51,7 +64,7 @@ public class FilmService {
     }
 
     public void addLike(int idFilm, int idUser) {
-        if (!userService.userRepository.isUserExists(idUser)) {
+        if (!userRepository.isUserExists(idUser)) {
             throw new NotExistObjectException("User not exist");
         }
         if (!filmRepository.isFilmExists(idFilm)) {
@@ -67,7 +80,7 @@ public class FilmService {
     }
 
     public void removeLike(int idFilm, int idUser) {
-        if (!userService.userRepository.isUserExists(idUser)) {
+        if (!userRepository.isUserExists(idUser)) {
             throw new NotExistObjectException("User not exist");
         }
         if (!filmRepository.isFilmExists(idFilm)) {

@@ -39,7 +39,7 @@ class FilmServiceTest {
     void addLike_WhenTwoFilmsExistInDBThenUserAddLikesBothReturnTrue() {
         filmService.addFilm(validFilm);
         filmService.addFilm(defaultFilm);
-        filmService.userService.userRepository.addUser(user);
+        filmService.getUserRepository().addUser(user);
 
         filmService.addLike(validFilm.getId(), user.getId());
         filmService.addLike(defaultFilm.getId(), user.getId());
@@ -50,9 +50,9 @@ class FilmServiceTest {
 
     @Test
     void removeLike_WhenTwoFilmsExistInDBThenUserAddLikesAndRemoveLikesBothReturnFalse() {
-        filmService.filmRepository.addFilm(validFilm);
-        filmService.filmRepository.addFilm(defaultFilm);
-        filmService.userService.userRepository.addUser(user);
+        filmService.getFilmRepository().addFilm(validFilm);
+        filmService.getFilmRepository().addFilm(defaultFilm);
+        filmService.getUserRepository().addUser(user);
         filmService.addLike(validFilm.getId(), user.getId());
         filmService.addLike(defaultFilm.getId(), user.getId());
 
@@ -65,11 +65,11 @@ class FilmServiceTest {
 
     @Test
     void getMostNOr10LikedFilms_WhenExist3FilmsWith0LikesThen2UsersLikedOneFilmAndNoOneLikeTwoOtherReturn3SortedTopFilms() {
-        filmService.filmRepository.addFilm(validFilm);
-        filmService.filmRepository.addFilm(defaultFilm);
-        filmService.filmRepository.addFilm(anotherOneValidFilm);
-        filmService.userService.userRepository.addUser(user);
-        filmService.userService.userRepository.addUser(someUser);
+        filmService.getFilmRepository().addFilm(validFilm);
+        filmService.getFilmRepository().addFilm(defaultFilm);
+        filmService.getFilmRepository().addFilm(anotherOneValidFilm);
+        filmService.getUserRepository().addUser(user);
+        filmService.getUserRepository().addUser(someUser);
         filmService.addLike(validFilm.getId(), user.getId());
         filmService.addLike(validFilm.getId(), someUser.getId());
 
