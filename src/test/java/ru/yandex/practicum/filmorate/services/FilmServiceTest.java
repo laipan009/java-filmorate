@@ -19,6 +19,8 @@ class FilmServiceTest {
 
     @Autowired
     private FilmService filmService;
+    @Autowired
+    private UserService userService;
 
     private Film validFilm;
     private Film anotherOneValidFilm;
@@ -39,7 +41,7 @@ class FilmServiceTest {
     void addLike_WhenTwoFilmsExistInDBThenUserAddLikesBothReturnTrue() {
         filmService.addFilm(validFilm);
         filmService.addFilm(defaultFilm);
-        filmService.getUserRepository().addUser(user);
+        userService.addUser(user);
 
         filmService.addLike(validFilm.getId(), user.getId());
         filmService.addLike(defaultFilm.getId(), user.getId());
@@ -50,9 +52,9 @@ class FilmServiceTest {
 
     @Test
     void removeLike_WhenTwoFilmsExistInDBThenUserAddLikesAndRemoveLikesBothReturnFalse() {
-        filmService.getFilmRepository().addFilm(validFilm);
-        filmService.getFilmRepository().addFilm(defaultFilm);
-        filmService.getUserRepository().addUser(user);
+        filmService.addFilm(validFilm);
+        filmService.addFilm(defaultFilm);
+        userService.addUser(user);
         filmService.addLike(validFilm.getId(), user.getId());
         filmService.addLike(defaultFilm.getId(), user.getId());
 
@@ -65,11 +67,11 @@ class FilmServiceTest {
 
     @Test
     void getMostNOr10LikedFilms_WhenExist3FilmsWith0LikesThen2UsersLikedOneFilmAndNoOneLikeTwoOtherReturn3SortedTopFilms() {
-        filmService.getFilmRepository().addFilm(validFilm);
-        filmService.getFilmRepository().addFilm(defaultFilm);
-        filmService.getFilmRepository().addFilm(anotherOneValidFilm);
-        filmService.getUserRepository().addUser(user);
-        filmService.getUserRepository().addUser(someUser);
+        filmService.addFilm(validFilm);
+        filmService.addFilm(defaultFilm);
+        filmService.addFilm(anotherOneValidFilm);
+        userService.addUser(user);
+        userService.addUser(someUser);
         filmService.addLike(validFilm.getId(), user.getId());
         filmService.addLike(validFilm.getId(), someUser.getId());
 
