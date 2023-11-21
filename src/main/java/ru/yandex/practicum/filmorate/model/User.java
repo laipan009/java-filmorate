@@ -28,5 +28,8 @@ public class User {
     private LocalDate birthday;
 
     private Set<Integer> friends = new HashSet<>();
+
     private Set<Integer> likedFilms = new HashSet<>();
+
+    private StatusFriendRequest statusFriendRequest;
 }
