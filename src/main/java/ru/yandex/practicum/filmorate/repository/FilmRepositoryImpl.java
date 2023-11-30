@@ -1,15 +1,11 @@
-package ru.yandex.practicum.filmorate.services;
+package ru.yandex.practicum.filmorate.repository;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import ru.yandex.practicum.filmorate.exceptions.NotExistObjectException;
 import ru.yandex.practicum.filmorate.model.Film;
-import ru.yandex.practicum.filmorate.repository.FilmRepository;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Repository
 @Slf4j
@@ -35,12 +31,12 @@ public class FilmRepositoryImpl implements FilmRepository {
     }
 
     @Override
-    public Film getFilmById(int id) {
+    public Optional<Film> getFilmById(int id) {
         log.info("Getting film with id {}", id);
         if (!isFilmExists(id)) {
             throw new NotExistObjectException("Film with same id=" + id + " already not exist");
         }
-        return films.get(id);
+        return Optional.ofNullable(films.get(id));
     }
 
     @Override
@@ -54,6 +50,11 @@ public class FilmRepositoryImpl implements FilmRepository {
     }
 
     @Override
+    public List<Film> getMostNLikedFilms(int countFilms) {
+        return null;
+    }
+
+    @Override
     public void deleteFilmById(int id) {
         log.info("Deleting film with id {}", id);
         if (!isFilmExists(id)) {
@@ -62,7 +63,6 @@ public class FilmRepositoryImpl implements FilmRepository {
         films.remove(id);
     }
 
-    @Override
     public boolean isFilmExists(int id) {
         log.info("Checking film with id {} existence", id);
         return films.containsKey(id);

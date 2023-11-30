@@ -57,8 +57,8 @@ public class FilmController {
     }
 
     @GetMapping("/popular")
-    public List<Film> getMostNOr10LikedFilms(@RequestParam(value = "count", defaultValue = "0") int count) {
+    public List<Film> getMostNOr10LikedFilms(@RequestParam(value = "count", defaultValue = "10") int count) {
         log.info("GET request received to receive TOP rated films");
-        return filmService.getMostNOr10LikedFilms(count);
+        return filmService.getMostNLikedFilms(count);
     }
 }

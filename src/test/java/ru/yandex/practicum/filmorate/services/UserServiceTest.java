@@ -63,7 +63,7 @@ class UserServiceTest {
         userService.addFriend(user.getId(), someUser.getId());
         assertTrue(userService.isUsersAlreadyFriends(user.getId(), someUser.getId()));
 
-        userService.deleteFriend(user.getId(), someUser.getId());
+        userService.deleteFriendById(user.getId(), someUser.getId());
 
         assertFalse(userService.isUsersAlreadyFriends(user.getId(), someUser.getId()));
     }

@@ -1,31 +1,29 @@
 package ru.yandex.practicum.filmorate.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
+import ru.yandex.practicum.filmorate.exceptions.NotExistObjectException;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.repository.FilmRepository;
+import ru.yandex.practicum.filmorate.repository.LikeFilmRepository;
 
-import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 public class FilmService {
+
     private final FilmRepository filmRepository;
+    private final LikeFilmRepository likeFilmRepository;
     private final UserService userService;
 
     @Autowired
-    public FilmService(FilmRepository filmRepository, UserService userService) {
+    public FilmService(@Qualifier("filmDbRepository") FilmRepository filmRepository,
+                       LikeFilmRepository likeFilmRepository, UserService userService) {
         this.filmRepository = filmRepository;
+        this.likeFilmRepository = likeFilmRepository;
         this.userService = userService;
-    }
-
-    protected boolean isFilmLikedByUser(int filmId, int userId) {
-        return Optional.ofNullable(filmRepository.getFilmById(filmId).getLikes())
-                .map(set -> set.contains(userId))
-                .orElse(false);
     }
 
     public List<Film> getAllFilms() {
@@ -37,7 +35,12 @@ public class FilmService {
     }
 
     public Film getFilmById(int id) {
-        return filmRepository.getFilmById(id);
+        try {
+            return filmRepository.getFilmById(id)
+                    .orElseThrow(() -> new NotExistObjectException("Film with id " + id + " does not exist."));
+        } catch (EmptyResultDataAccessException e) {
+            throw new NotExistObjectException("Film with id " + id + " does not exist.");
+        }
     }
 
     public Film updateFilm(Film film) {
@@ -49,30 +52,14 @@ public class FilmService {
     }
 
     public void addLike(int idFilm, int idUser) {
-        Set<Integer> filmLikes = filmRepository.getFilmById(idFilm).getLikes();
-        Set<Integer> likedFilms = userService.getUserById(idUser).getLikedFilms();
-        if (isFilmLikedByUser(idFilm, idUser)) {
-            throw new RuntimeException("Film already liked");
-        }
-        filmLikes.add(idUser);
-        likedFilms.add(idFilm);
+        likeFilmRepository.addLike(idFilm, idUser);
     }
 
     public void removeLike(int idFilm, int idUser) {
-        Set<Integer> filmLikes = filmRepository.getFilmById(idFilm).getLikes();
-        Set<Integer> likedFilms = userService.getUserById(idUser).getLikedFilms();
-        if (!isFilmLikedByUser(idFilm, idUser)) {
-            throw new RuntimeException("Film already not liked");
-        }
-        filmLikes.remove(idUser);
-        likedFilms.remove(idFilm);
+        likeFilmRepository.removeLike(idFilm, idUser);
     }
 
-    public List<Film> getMostNOr10LikedFilms(int countFilms) {
-        int countTopLikedFilms = countFilms == 0 ? 10 : countFilms;
-        return filmRepository.getAllFilms().stream()
-                .sorted(Comparator.comparingInt((Film f) -> f.getLikes().size()).reversed())
-                .limit(countTopLikedFilms)
-                .collect(Collectors.toList());
+    public List<Film> getMostNLikedFilms(int countFilms) {
+        return filmRepository.getMostNLikedFilms(countFilms);
     }
 }

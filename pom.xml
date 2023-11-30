@@ -21,6 +21,8 @@
 		<org.jetbrains.version>20.1.0</org.jetbrains.version>
 		<org.assertj.version>3.24.2</org.assertj.version>
 		<org.apache.commons>3.13.0</org.apache.commons>
+		<h2.version>2.2.220</h2.version>
+		<spring-boot-starter-data-jpa.version>2.7.5</spring-boot-starter-data-jpa.version>
 	</properties>
 
 	<dependencies>
@@ -76,6 +78,19 @@
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
 			<version>${org.apache.commons}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<version>${h2.version}</version>
+			<scope>runtime</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+			<version>${spring-boot-starter-data-jpa.version}</version>
 		</dependency>
 	</dependencies>
 

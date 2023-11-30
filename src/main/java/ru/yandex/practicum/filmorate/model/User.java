@@ -1,5 +1,6 @@
 package ru.yandex.practicum.filmorate.model;
 
+import lombok.Builder;
 import lombok.Data;
 
 import javax.validation.constraints.Email;
@@ -8,9 +9,11 @@ import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
 import java.time.LocalDate;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Data
+@Builder
 public class User {
     private int id;
 
@@ -27,9 +30,5 @@ public class User {
     @Past(message = "Birthday cannot be in the future")
     private LocalDate birthday;
 
-    private Set<Integer> friends = new HashSet<>();
-
-    private Set<Integer> likedFilms = new HashSet<>();
-
-    private StatusFriendRequest statusFriendRequest;
+    private List<User> friends;
 }

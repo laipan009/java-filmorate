@@ -1,7 +1,10 @@
 package ru.yandex.practicum.filmorate.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
+import ru.yandex.practicum.filmorate.exceptions.NotExistObjectException;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.repository.UserRepository;
 
@@ -14,14 +17,8 @@ public class UserService {
     protected final UserRepository userRepository;
 
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(@Qualifier("userDbRepository") UserRepository userRepository) {
         this.userRepository = userRepository;
-    }
-
-    protected boolean isUsersAlreadyFriends(int userId, int idFriend) {
-        return Optional.ofNullable(userRepository.getUserById(userId).getFriends())
-                .map(set -> set.contains(idFriend))
-                .orElse(false);
     }
 
     public List<User> getAllUsers() {
@@ -29,11 +26,19 @@ public class UserService {
     }
 
     public User addUser(User user) {
+        if (user.getName().isBlank()) {
+            user.setName(user.getLogin());
+        }
         return userRepository.addUser(user);
     }
 
     public User getUserById(int id) {
-        return userRepository.getUserById(id);
+        try {
+            return userRepository.getUserById(id)
+                    .orElseThrow(() -> new NotExistObjectException("User with id " + id + " does not exist."));
+        } catch (EmptyResultDataAccessException e) {
+            throw new NotExistObjectException("User with id " + id + " does not exist.");
+        }
     }
 
     public User updateUser(User user) {
@@ -45,42 +50,18 @@ public class UserService {
     }
 
     public void addFriend(int userId, int idFriend) {
-        Set<Integer> userFriends = userRepository.getUserById(userId).getFriends();
-        Set<Integer> friendsNewFriend = userRepository.getUserById(idFriend).getFriends();
-        if (isUsersAlreadyFriends(userId, idFriend)) {
-            throw new RuntimeException("Users already is friend list");
-        }
-        userFriends.add(idFriend);
-        friendsNewFriend.add(userId);
+        userRepository.addFriend(userId, idFriend);
     }
 
-    public void deleteFriend(int userId, int idFriend) {
-        Set<Integer> userFriends = userRepository.getUserById(userId).getFriends();
-        Set<Integer> friendsNewFriend = userRepository.getUserById(idFriend).getFriends();
-        if (!isUsersAlreadyFriends(userId, idFriend)) {
-            throw new RuntimeException("Users are not on the friends list");
-        }
-        userFriends.remove(idFriend);
-        friendsNewFriend.remove(userId);
+    public void deleteFriendById(int userId, int idFriend) {
+        userRepository.deleteFriendById(userId, idFriend);
     }
 
     public List<User> getFriendsByIdUser(int id) {
-        Optional<Set<Integer>> friends = Optional.of(userRepository.getUserById(id).getFriends());
-        return friends.orElseThrow(() -> new RuntimeException("User not have friends"))
-                .stream()
-                .map(userRepository::getUserById)
-                .collect(Collectors.toList());
+        return userRepository.getFriendsByUserId(id);
     }
 
     public List<User> getCommonFriends(int userId, int idFriend) {
-
-        Set<Integer> userFriends = userRepository.getUserById(userId).getFriends();
-        Set<Integer> friendFriends = userRepository.getUserById(idFriend).getFriends();
-        Set<User> commonFriends = Stream.of(friendFriends, userFriends)
-                .flatMap(Collection::stream)
-                .filter(id -> id != userId && id != idFriend)
-                .map(userRepository::getUserById)
-                .collect(Collectors.toSet());
-        return new ArrayList<>(commonFriends);
+        return new ArrayList<>(userRepository.getCommonFriends(userId, idFriend));
     }
 }
