@@ -1,4 +1,4 @@
-package ru.yandex.practicum.filmorate.repository;
+package ru.yandex.practicum.filmorate.repository.user;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -7,6 +7,8 @@ import ru.yandex.practicum.filmorate.exceptions.NotExistObjectException;
 import ru.yandex.practicum.filmorate.model.User;
 
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Repository
 @Slf4j
@@ -73,23 +75,55 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public List<User> getFriendsByUserId(long id) {
-        return null;
+    public List<User> getFriendsByUserId(int id) {
+        return getUserById(id)
+                .orElseThrow(() -> new NotExistObjectException("User noy exist"))
+                .getFriends();
     }
 
     @Override
     public void deleteFriendById(int userId, int idFriend) {
-
+        List<User> userFriends = getUserById(userId)
+                .orElseThrow(() -> new NotExistObjectException("User not exist"))
+                .getFriends();
+        List<User> friendFriends = getUserById(idFriend)
+                .orElseThrow(() -> new NotExistObjectException("User not exist"))
+                .getFriends();
+        if (isUsersAlreadyFriends(userId, idFriend)) {
+            throw new RuntimeException("Users already is friend list");
+        }
+        userFriends.remove(getUserById(idFriend).get());
+        friendFriends.remove(getUserById(userId).get());
     }
 
     @Override
     public void addFriend(int userId, int idFriend) {
-
+        List<User> userFriends = getUserById(userId)
+                .orElseThrow(() -> new NotExistObjectException("User now exist"))
+                .getFriends();
+        List<User> friendFriends = getUserById(idFriend)
+                .orElseThrow(() -> new NotExistObjectException("User now exist"))
+                .getFriends();
+        if (isUsersAlreadyFriends(userId, idFriend)) {
+            throw new RuntimeException("Users already is friend list");
+        }
+        userFriends.add(getUserById(idFriend).get());
+        friendFriends.add(getUserById(userId).get());
     }
 
     @Override
     public List<User> getCommonFriends(int userId, int idFriend) {
-        return null;
+        List<User> userFriends = getUserById(userId)
+                .orElseThrow(() -> new NotExistObjectException("User now exist"))
+                .getFriends();
+        List<User> friendFriends = getUserById(idFriend)
+                .orElseThrow(() -> new NotExistObjectException("User now exist"))
+                .getFriends();
+        Set<User> commonFriends = Stream.of(friendFriends, userFriends)
+                .flatMap(Collection::stream)
+                .filter(u -> u.getId() != userId && u.getId() != idFriend)
+                .collect(Collectors.toSet());
+        return new ArrayList<>(commonFriends);
     }
 
     public boolean isUserExists(int id) {

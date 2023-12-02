@@ -5,11 +5,9 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.exceptions.NotExistObjectException;
 import ru.yandex.practicum.filmorate.model.Genre;
-import ru.yandex.practicum.filmorate.repository.GenreRepository;
+import ru.yandex.practicum.filmorate.repository.genre.GenreRepository;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.Set;
 
 @Service
 public class GenreService {

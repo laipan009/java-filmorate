@@ -9,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.yandex.practicum.filmorate.model.Film;
+import ru.yandex.practicum.filmorate.model.Mpa;
 
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -32,8 +33,10 @@ class FilmControllerValidationTest {
 
     @BeforeEach
     void setUp() {
-        validFilm = createFilm(1, "Test Film", "Test Description", LocalDate.now(), 120);
-        anotherOneValidFilm = createFilm(2, "Film2", "Description2", LocalDate.of(2021, 1, 1), 130);
+        validFilm = createFilm(1, "Test Film", "Test Description",
+                LocalDate.now(), 120, new Mpa(2, "PG"), 0);
+        anotherOneValidFilm = createFilm(2, "Film2", "Description2",
+                LocalDate.of(2021, 1, 1), 130, new Mpa(1, "G"), 0);
     }
 
     @Test
@@ -114,13 +117,15 @@ class FilmControllerValidationTest {
                 .andExpect(content().json(objectMapper.writeValueAsString(Arrays.asList(validFilm, anotherOneValidFilm))));
     }
 
-    private Film createFilm(int id, String name, String desc, LocalDate date, int duration) {
+    private Film createFilm(int id, String name, String desc, LocalDate date, int duration, Mpa mpa, int rate) {
         Film film = new Film();
         film.setId(id);
         film.setName(name);
         film.setDescription(desc);
         film.setReleaseDate(date);
         film.setDuration(duration);
+        film.setMpa(mpa);
+        film.setRate(0);
         return film;
     }
 }

@@ -1,4 +1,4 @@
-package ru.yandex.practicum.filmorate.repository;
+package ru.yandex.practicum.filmorate.repository.user;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -97,7 +97,7 @@ public class UserDbRepository implements UserRepository {
     }
 
     @Override
-    public List<User> getFriendsByUserId(long id) {
+    public List<User> getFriendsByUserId(int id) {
         String query = "SELECT uf.user_id, uf.email, uf.login, uf.name_user, uf.birthday " +
                 "FROM User_Filmorate uf " +
                 "JOIN Friendship f ON uf.user_id = f.friend_id " +
@@ -126,8 +126,8 @@ public class UserDbRepository implements UserRepository {
                 "SELECT ?, ? " +
                 "WHERE NOT EXISTS ( " +
                 "SELECT 1 FROM Friendship " +
-                "WHERE (user_id = ? AND friend_id = ?) OR (user_id = ? AND friend_id = ?))";
-        int insertResult = jdbcTemplate.update(query, userId, idFriend, userId, idFriend, idFriend, userId);
+                "WHERE user_id = ? AND friend_id = ?)";
+        int insertResult = jdbcTemplate.update(query, userId, idFriend, userId, idFriend);
         if (insertResult > 0) {
             log.info("User with ID {} has been added in friends of user by ID {}.", idFriend, userId);
         }

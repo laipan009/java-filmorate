@@ -1,10 +1,9 @@
-package ru.yandex.practicum.filmorate.repository;
+package ru.yandex.practicum.filmorate.repository.user;
 
 import ru.yandex.practicum.filmorate.model.User;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 public interface UserRepository {
     List<User> getAllUsers();
@@ -17,7 +16,7 @@ public interface UserRepository {
 
     void deleteUserById(int id);
 
-    List<User> getFriendsByUserId(long id);
+    List<User> getFriendsByUserId(int id);
 
     void deleteFriendById(int userId, int idFriend);
 

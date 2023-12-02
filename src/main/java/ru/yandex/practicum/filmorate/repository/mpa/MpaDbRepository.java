@@ -1,4 +1,4 @@
-package ru.yandex.practicum.filmorate.repository;
+package ru.yandex.practicum.filmorate.repository.mpa;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +32,7 @@ public class MpaDbRepository implements MpaRepository {
     public Optional<Mpa> getMpaById(int id) {
         String query = "SELECT * FROM Mpa WHERE mpa_id=?";
         log.info("Mpa with ID {} returned.", id);
-        return Optional.ofNullable(jdbcTemplate.queryForObject(query,this::mapToMpa, id));
+        return Optional.ofNullable(jdbcTemplate.queryForObject(query, this::mapToMpa, id));
     }
 
     @Override

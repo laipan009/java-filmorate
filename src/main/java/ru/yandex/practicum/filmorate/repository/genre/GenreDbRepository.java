@@ -1,22 +1,19 @@
-package ru.yandex.practicum.filmorate.repository;
+package ru.yandex.practicum.filmorate.repository.genre;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 import ru.yandex.practicum.filmorate.model.Genre;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @Repository
 @Slf4j
-public class GenreDbRepository implements GenreRepository{
+public class GenreDbRepository implements GenreRepository {
     private final JdbcTemplate jdbcTemplate;
 
     private Genre mapRowToGenre(ResultSet resultSet, int i) throws SQLException {
@@ -52,7 +49,7 @@ public class GenreDbRepository implements GenreRepository{
                 "JOIN Genre_Film gf ON g.genre_id = gf.genre_id " +
                 "WHERE gf.film_id = ?";
         log.info("SELECT request to DB get genre by film_id=" + film_Id);
-        List<Genre> genres = jdbcTemplate.query(query,this::mapRowToGenre, film_Id);
+        List<Genre> genres = jdbcTemplate.query(query, this::mapRowToGenre, film_Id);
         return genres;
     }
 }

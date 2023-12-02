@@ -1,5 +1,6 @@
 package ru.yandex.practicum.filmorate.dto;
 
+import lombok.Builder;
 import lombok.Data;
 import ru.yandex.practicum.filmorate.model.Genre;
 import ru.yandex.practicum.filmorate.validators.ValidReleaseDate;
@@ -13,6 +14,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Data
+@Builder
 public class FilmDTO {
     @NotBlank(message = "Title cannot be empty")
     @NotNull(message = "Title cannot be empty")
