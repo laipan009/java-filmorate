@@ -43,13 +43,13 @@ public class GenreDbRepository implements GenreRepository {
     }
 
     @Override
-    public List<Genre> getGenresByFilmId(int film_Id) {
+    public List<Genre> getGenresByFilmId(int filmId) {
         String query = "SELECT g.genre_id, g.genre_name " +
                 "FROM Genre g " +
                 "JOIN Genre_Film gf ON g.genre_id = gf.genre_id " +
                 "WHERE gf.film_id = ?";
-        log.info("SELECT request to DB get genre by film_id=" + film_Id);
-        List<Genre> genres = jdbcTemplate.query(query, this::mapRowToGenre, film_Id);
+        log.info("SELECT request to DB get genre by film_id=" + filmId);
+        List<Genre> genres = jdbcTemplate.query(query, this::mapRowToGenre, filmId);
         return genres;
     }
 }
