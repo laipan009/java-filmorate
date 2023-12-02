@@ -32,7 +32,7 @@ public class GenreService {
         return genreRepository.getAll();
     }
 
-    public List<Genre> getGenresByFilmId(int film_Id) {
-        return genreRepository.getGenresByFilmId(film_Id);
+    public List<Genre> getGenresByFilmId(int filmId) {
+        return genreRepository.getGenresByFilmId(filmId);
     }
 }
