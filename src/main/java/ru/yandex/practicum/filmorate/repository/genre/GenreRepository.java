@@ -10,5 +10,5 @@ public interface GenreRepository {
 
     List<Genre> getAll();
 
-    List<Genre> getGenresByFilmId(int film_Id);
+    List<Genre> getGenresByFilmId(int filmId);
 }
