@@ -22,7 +22,7 @@ public class MpaController {
         this.mpaService = mpaService;
     }
 
-    @GetMapping()
+    @GetMapping
     public List<Mpa> getAllMpa() {
         log.info("GET request received to receive all mpa");
         return mpaService.getAllMpa();
@@ -34,5 +34,4 @@ public class MpaController {
         log.info("GET request received to receive mpa by id=" + id);
         return mpaService.getMpaById(id);
     }
-
 }

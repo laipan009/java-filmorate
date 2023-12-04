@@ -6,6 +6,7 @@ import ru.yandex.practicum.filmorate.exceptions.NotExistObjectException;
 import ru.yandex.practicum.filmorate.model.Film;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Repository
 @Slf4j
@@ -51,7 +52,11 @@ public class FilmRepositoryImpl implements FilmRepository {
 
     @Override
     public List<Film> getMostNLikedFilms(int countFilms) {
-        return null;
+        int countTopLikedFilms = countFilms == 0 ? 10 : countFilms;
+        return  films.values().stream()
+                .sorted()
+                .limit(countTopLikedFilms)
+                .collect(Collectors.toList());
     }
 
     @Override

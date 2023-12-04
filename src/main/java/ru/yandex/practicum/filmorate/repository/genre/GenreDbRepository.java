@@ -53,9 +53,3 @@ public class GenreDbRepository implements GenreRepository {
         return genres;
     }
 }
-
-
-
-
-
-
