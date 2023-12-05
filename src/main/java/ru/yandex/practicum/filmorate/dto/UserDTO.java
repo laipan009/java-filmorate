@@ -1,19 +1,19 @@
-package ru.yandex.practicum.filmorate.model;
+package ru.yandex.practicum.filmorate.dto;
 
 import lombok.Builder;
 import lombok.Data;
+import ru.yandex.practicum.filmorate.model.User;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 @Data
 @Builder
-public class User {
+public class UserDTO {
     private int id;
 
     @NotBlank(message = "Email cannot be empty")
@@ -29,5 +29,5 @@ public class User {
     @Past(message = "Birthday cannot be in the future")
     private LocalDate birthday;
 
-    private List<User> friends = new ArrayList<>();
+    private List<User> friends;
 }

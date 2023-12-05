@@ -6,8 +6,9 @@ import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.services.UserService;
 
-import javax.validation.Valid;
 import java.util.List;
+import javax.validation.Valid;
+
 
 @Slf4j
 @RestController
@@ -53,7 +54,7 @@ public class UserController {
     @DeleteMapping("/{id}/friends/{friendId}")
     public void deleteFriend(@PathVariable int id, @PathVariable int friendId) {
         log.info("DELETE request received to remove friend from user by id=" + id + " to user by id=" + friendId);
-        userService.deleteFriend(id, friendId);
+        userService.deleteFriendById(id, friendId);
     }
 
     @GetMapping("/{id}/friends")

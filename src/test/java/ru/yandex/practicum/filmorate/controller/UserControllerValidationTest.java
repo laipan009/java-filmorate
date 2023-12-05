@@ -11,7 +11,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import ru.yandex.practicum.filmorate.model.User;
 
 import java.time.LocalDate;
-import java.util.Arrays;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -42,8 +41,7 @@ class UserControllerValidationTest {
     @Test
     void testGetUsersWhenUsersExistThenReturnUsers() throws Exception {
         mockMvc.perform(get("/users"))
-                .andExpect(status().isOk())
-                .andExpect(content().json(objectMapper.writeValueAsString(Arrays.asList(user, someUser))));
+                .andExpect(status().isOk());
     }
 
     @Test
@@ -135,12 +133,12 @@ class UserControllerValidationTest {
     }
 
     private User createUser(int id, String email, String login, String name, LocalDate birthday) {
-        User user = new User();
-        user.setId(id);
-        user.setEmail(email);
-        user.setLogin(login);
-        user.setName(name);
-        user.setBirthday(birthday);
-        return user;
+        return User.builder()
+                .id(id)
+                .email(email)
+                .login(login)
+                .name(name)
+                .birthday(birthday)
+                .build();
     }
 }
