@@ -19,7 +19,7 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class Film {
-    private int idFilm;
+    private int id;
 
     @NotBlank(message = "Title cannot be empty")
     @NotNull(message = "Title cannot be empty")

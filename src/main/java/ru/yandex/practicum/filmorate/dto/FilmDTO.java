@@ -31,12 +31,4 @@ public class FilmDTO {
     private MpaDTO mpaDTO;
     private Set<Integer> likes = new HashSet<>();
     private Set<Genre> genres = new HashSet<>();
-
-    {
-        boolean[] arr = new boolean[1000];
-        for (int i = 0; i < arr.length; i++) {
-            arr[i] = true;
-        }
-    }
-
 }

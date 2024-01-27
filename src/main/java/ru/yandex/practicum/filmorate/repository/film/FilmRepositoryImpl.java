@@ -22,11 +22,11 @@ public class FilmRepositoryImpl implements FilmRepository {
 
     @Override
     public Film addFilm(Film film) {
-        log.info("Adding film with id {}", film.getIdFilm());
-        if (isFilmExists(film.getIdFilm())) {
-            throw new RuntimeException("Film with same id=" + film.getIdFilm() + " already exist");
+        log.info("Adding film with id {}", film.getId());
+        if (isFilmExists(film.getId())) {
+            throw new RuntimeException("Film with same id=" + film.getId() + " already exist");
         }
-        film.setIdFilm(id);
+        film.setId(id);
         films.put(id++, film);
         return film;
     }
@@ -43,10 +43,10 @@ public class FilmRepositoryImpl implements FilmRepository {
     @Override
     public Film updateFilm(Film film) {
         log.info("Updating film with id {}", id);
-        if (!isFilmExists(film.getIdFilm())) {
-            throw new NotExistObjectException("Film with same id=" + film.getIdFilm() + " already not exist");
+        if (!isFilmExists(film.getId())) {
+            throw new NotExistObjectException("Film with same id=" + film.getId() + " already not exist");
         }
-        films.put(film.getIdFilm(), film);
+        films.put(film.getId(), film);
         return film;
     }
 

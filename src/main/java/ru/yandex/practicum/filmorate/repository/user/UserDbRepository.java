@@ -38,7 +38,6 @@ public class UserDbRepository implements UserRepository {
         return userAttributes;
     }
 
-
     @Autowired
     public UserDbRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
