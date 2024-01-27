@@ -30,7 +30,7 @@ public class FilmDbRepository implements FilmRepository {
 
     private Film mapToFilm(ResultSet rs, int rowNum) throws SQLException {
         return Film.builder()
-                .id(rs.getInt("film_id"))
+                .idFilm(rs.getInt("film_id"))
                 .name(rs.getString("film_name"))
                 .description(rs.getString("description"))
                 .releaseDate(rs.getDate("release_date").toLocalDate())
@@ -74,15 +74,15 @@ public class FilmDbRepository implements FilmRepository {
                 .withTableName("film")
                 .usingGeneratedKeyColumns("film_id");
         Number key = simpleJdbcInsert.executeAndReturnKey(filmToMap(film));
-        film.setId((Integer) key);
+        film.setIdFilm((Integer) key);
 
         if (!film.getGenres().isEmpty()) {
             String query = "INSERT INTO Genre_Film (film_id, genre_id) VALUES (?,?)";
             for (Genre genre : film.getGenres()) {
-                jdbcTemplate.update(query, film.getId(), genre.getId());
+                jdbcTemplate.update(query, film.getIdFilm(), genre.getId());
             }
         }
-        log.info("Film with ID {} saved.", film.getId());
+        log.info("Film with ID {} saved.", film.getIdFilm());
         return film;
     }
 
@@ -97,7 +97,7 @@ public class FilmDbRepository implements FilmRepository {
     public Film updateFilm(Film film) {
         String query = "UPDATE Film SET film_name=?, description=?, release_date=?, duration=?, rate =?, mpa_id=? " +
                 "WHERE film_id=?";
-        int filmId = film.getId();
+        int filmId = film.getIdFilm();
         int updateResult = jdbcTemplate.update(query,
                 film.getName(),
                 film.getDescription(),

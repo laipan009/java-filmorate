@@ -119,7 +119,7 @@ class FilmControllerValidationTest {
 
     private Film createFilm(int id, String name, String desc, LocalDate date, int duration, Mpa mpa, int rate) {
         Film film = new Film();
-        film.setId(id);
+        film.setIdFilm(id);
         film.setName(name);
         film.setDescription(desc);
         film.setReleaseDate(date);

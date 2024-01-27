@@ -61,7 +61,7 @@ class FilmDbRepositoryTest {
     void testAddFilmWhenFilmAddedThenFilmInDatabase() {
         filmDbRepository.addFilm(film);
 
-        Film retrievedFilm = filmDbRepository.getFilmById(film.getId()).get();
+        Film retrievedFilm = filmDbRepository.getFilmById(film.getIdFilm()).get();
 
         assertThat(film).isEqualTo(retrievedFilm);
     }
@@ -69,10 +69,10 @@ class FilmDbRepositoryTest {
     @Test
     void testUpdateFilmWhenFilmUpdatedThenFilmInDatabase() {
         Film addedFilm = filmDbRepository.addFilm(film);
-        typicalFilm.setId(1);
+        typicalFilm.setIdFilm(1);
         filmDbRepository.updateFilm(typicalFilm);
 
-        Film retrievedFilm = filmDbRepository.getFilmById(addedFilm.getId()).get();
+        Film retrievedFilm = filmDbRepository.getFilmById(addedFilm.getIdFilm()).get();
 
         assertThat(retrievedFilm).isEqualTo(typicalFilm);
     }
@@ -81,7 +81,7 @@ class FilmDbRepositoryTest {
     void testDeleteFilmByIdWhenFilmDeletedThenFilmNotInDatabase() {
         Film addedFilm = filmDbRepository.addFilm(film);
 
-        filmDbRepository.deleteFilmById(addedFilm.getId());
+        filmDbRepository.deleteFilmById(addedFilm.getIdFilm());
         List<Film> allFilms = filmDbRepository.getAllFilms();
 
         assertTrue(allFilms.isEmpty());
